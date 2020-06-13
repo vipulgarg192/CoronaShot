@@ -1,8 +1,8 @@
 //
 //  GameScene.swift
-//  CoronaShot
+//  ZombieGame
 //
-//  Created by vipul garg on 2020-06-11.
+//  Created by vipul garg on 2020-06-08.
 //  Copyright © 2020 VipulGarg. All rights reserved.
 //
 
@@ -11,79 +11,123 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+   var background = SKSpriteNode(imageNamed:"background1")
+   let nurse = SKSpriteNode(imageNamed:"nurse")
     
     override func didMove(to view: SKView) {
+        // working
+//        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+
+        backgroundColor = SKColor.white
+        // this is to bring the background into center
+        background.position =   CGPoint(x: size.width/2, y: size.height/2)
+        background.zPosition = -1
+//        addChild(background)
+//        createBackground()
+
+        nurse.position =   CGPoint(x: nurse.size.width/4, y: size.height/2)
+        nurse.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+        addChild(nurse)
+           
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
-    }
-    
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+        run(SKAction.repeatForever(
+          SKAction.sequence([
+            SKAction.run(spawnEnemy),
+            SKAction.wait(forDuration: 1.0)
+            ])
+        ))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        for touch in touches {
+                   let location = touch.location(in: self)
+
+                   movePlayer(loc : location)
+               }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+       
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+       
     }
-    
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+
+        
     }
+    
+    override func didEvaluateActions() {
+    
+    }
+    
+    override func didSimulatePhysics() {
+    
+    }
+    
+    override func didApplyConstraints() {
+        
+    }
+    
+    
+     func createBackground() {
+              let backgroundTexture = SKTexture(imageNamed: "bg1")
+
+              for i in 0 ... 1{
+                  let background = SKSpriteNode(texture: backgroundTexture)
+                  background.zPosition = -1
+                  background.anchorPoint = CGPoint(x: 0, y: 0.5)
+                  background.position = CGPoint(x:  (backgroundTexture.size().width * CGFloat(i)) - CGFloat(1 * i), y: size.height/2)
+                let moveLeft = SKAction.moveBy(x: -backgroundTexture.size().width, y: 0, duration: 10)
+                let moveReset = SKAction.moveBy(x: backgroundTexture.size().width, y: 0, duration: 0)
+                let moveLoop = SKAction.sequence([moveLeft, moveReset])
+                let moveForever = SKAction.repeatForever(moveLoop)
+                background.size = UIScreen.main.bounds.size
+
+                background.run(moveForever)
+                addChild(background)
+              }
+    }
+    
+    func spawnEnemy() {
+        
+        let virusNo = CGFloat.random(min: 1, max: 7)
+        
+        let enemy = SKSpriteNode(imageNamed: "virus\(virusNo)")
+//        let enemy = SKSpriteNode(imageNamed: "virus6")
+
+        
+         let actualY = CGFloat.random(min: enemy.size.height/2, max: size.height - enemy.size.height/2)
+        
+        
+    // Position the monster slightly off-screen along the right edge,
+    // and along a random position along the Y axis as calculated above
+       enemy.position = CGPoint(x: size.width + enemy.size.width/2, y: actualY)
+        addChild(enemy)
+        
+//        let actualDuration = CGFloat.random(min: CGFloat(2.0), max: CGFloat(4.0))
+        
+        // Create the actions
+        let actionMove = SKAction.move(to: CGPoint(x: -enemy.size.width/2, y: actualY),
+                                       duration: TimeInterval(4))
+        let actionMoveDone = SKAction.removeFromParent()
+        enemy.run( SKAction.sequence([actionMove, actionMoveDone]))
+
+        
+    }
+
+    func movePlayer(loc : CGPoint){
+         let offset = CGPoint(x: loc.x - nurse.position.x,
+                         y: loc.y - nurse.position.y)
+         let length = sqrt(
+                            Double(offset.x * offset.x + offset.y * offset.y))
+        let time = length/480
+           let actionMove = SKAction.move(
+               to: CGPoint(x: nurse.size.width/4, y: loc.y),
+                    duration: time)
+                   nurse.run(actionMove)
+       }
 }
+

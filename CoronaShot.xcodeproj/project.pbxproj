@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10B880A02494A95E00D422E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10B8809E2494A95E00D422E3 /* Assets.xcassets */; };
 		10EA08B12491F89300C9FE47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EA08B02491F89300C9FE47 /* AppDelegate.swift */; };
 		10EA08B32491F89300C9FE47 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10EA08B22491F89300C9FE47 /* GameScene.sks */; };
 		10EA08B52491F89300C9FE47 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10EA08B42491F89300C9FE47 /* Actions.sks */; };
 		10EA08B72491F89300C9FE47 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EA08B62491F89300C9FE47 /* GameScene.swift */; };
 		10EA08B92491F89300C9FE47 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EA08B82491F89300C9FE47 /* GameViewController.swift */; };
 		10EA08BC2491F89300C9FE47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10EA08BA2491F89300C9FE47 /* Main.storyboard */; };
-		10EA08BE2491F89400C9FE47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10EA08BD2491F89400C9FE47 /* Assets.xcassets */; };
 		10EA08C12491F89400C9FE47 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10EA08BF2491F89400C9FE47 /* LaunchScreen.storyboard */; };
+		10EA08C9249200D500C9FE47 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EA08C8249200D500C9FE47 /* MathUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		10B8809E2494A95E00D422E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10EA08AD2491F89300C9FE47 /* CoronaShot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoronaShot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10EA08B02491F89300C9FE47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10EA08B22491F89300C9FE47 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -25,9 +27,9 @@
 		10EA08B62491F89300C9FE47 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		10EA08B82491F89300C9FE47 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		10EA08BB2491F89300C9FE47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		10EA08BD2491F89400C9FE47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10EA08C02491F89400C9FE47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		10EA08C22491F89400C9FE47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		10EA08C8249200D500C9FE47 /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,11 +66,12 @@
 				10EA08B22491F89300C9FE47 /* GameScene.sks */,
 				10EA08B42491F89300C9FE47 /* Actions.sks */,
 				10EA08B62491F89300C9FE47 /* GameScene.swift */,
+				10EA08C8249200D500C9FE47 /* MathUtils.swift */,
 				10EA08B82491F89300C9FE47 /* GameViewController.swift */,
 				10EA08BA2491F89300C9FE47 /* Main.storyboard */,
-				10EA08BD2491F89400C9FE47 /* Assets.xcassets */,
 				10EA08BF2491F89400C9FE47 /* LaunchScreen.storyboard */,
 				10EA08C22491F89400C9FE47 /* Info.plist */,
+				10B8809E2494A95E00D422E3 /* Assets.xcassets */,
 			);
 			path = CoronaShot;
 			sourceTree = "<group>";
@@ -133,9 +136,9 @@
 			files = (
 				10EA08BC2491F89300C9FE47 /* Main.storyboard in Resources */,
 				10EA08B32491F89300C9FE47 /* GameScene.sks in Resources */,
-				10EA08BE2491F89400C9FE47 /* Assets.xcassets in Resources */,
 				10EA08C12491F89400C9FE47 /* LaunchScreen.storyboard in Resources */,
 				10EA08B52491F89300C9FE47 /* Actions.sks in Resources */,
+				10B880A02494A95E00D422E3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				10EA08B72491F89300C9FE47 /* GameScene.swift in Sources */,
+				10EA08C9249200D500C9FE47 /* MathUtils.swift in Sources */,
 				10EA08B92491F89300C9FE47 /* GameViewController.swift in Sources */,
 				10EA08B12491F89300C9FE47 /* AppDelegate.swift in Sources */,
 			);
