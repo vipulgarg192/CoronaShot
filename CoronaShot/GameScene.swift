@@ -43,6 +43,7 @@ class GameScene: SKScene {
                    let location = touch.location(in: self)
 
                    movePlayer(loc : location)
+            shotter(location: location)
                }
     }
     
@@ -129,5 +130,34 @@ class GameScene: SKScene {
                     duration: time)
                    nurse.run(actionMove)
        }
+    
+    func shotter(location: CGPoint) {
+      // 2 - Set up initial location of projectile
+         let projectile = SKSpriteNode(imageNamed: "virus6")
+         projectile.position = nurse.position
+         
+         // 3 - Determine offset of location to projectile
+         let offset = location - projectile.position
+         
+         // 4 - Bail out if you are shooting down or backwards
+         if offset.x < 0 { return }
+         
+         // 5 - OK to add now - you've double checked position
+         addChild(projectile)
+         
+         // 6 - Get the direction of where to shoot
+         let direction = offset.normalized()
+         
+         // 7 - Make it shoot far enough to be guaranteed off screen
+         let shootAmount = direction * 2000
+         
+         // 8 - Add the shoot amount to the current position
+         let realDest = shootAmount + projectile.position
+         
+         // 9 - Create the actions
+        let actionMove = SKAction.move(to: realDest, duration: 1.5)
+         let actionMoveDone = SKAction.removeFromParent()
+         projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
+    }
 }
 
