@@ -10,9 +10,52 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+
     
    var background = SKSpriteNode(imageNamed:"background1")
-   let nurse = SKSpriteNode(imageNamed:"nurse")
+   let nurse = SKSpriteNode(imageNamed:"doc1")
+   let covidP = SKSpriteNode(imageNamed:"covidP1")
+   let doctorAnimation: SKAction
+   let patient1Animation : SKAction
+    
+    override init(size: CGSize) {
+        var textures:[SKTexture] = []
+        var patient1textures:[SKTexture] = []
+        // 2
+        for i in 1...8 {
+         textures.append(SKTexture(imageNamed: "doc\(i)"))
+         patient1textures.append(SKTexture(imageNamed: "covidP\(i)"))
+        }
+        // 3
+          
+        textures.append(textures[7])
+        textures.append(textures[6])
+        textures.append(textures[5])
+        textures.append(textures[4])
+        textures.append(textures[3])
+        textures.append(textures[2])
+        textures.append(textures[1])
+        
+             patient1textures.append(patient1textures[7])
+             patient1textures.append(patient1textures[6])
+             patient1textures.append(patient1textures[5])
+             patient1textures.append(patient1textures[4])
+             patient1textures.append(patient1textures[3])
+             patient1textures.append(patient1textures[2])
+             patient1textures.append(patient1textures[1])
+        // 4
+        doctorAnimation = SKAction.animate(with: textures,
+         timePerFrame: 0.1)
+        
+        patient1Animation = SKAction.animate(with: patient1textures,
+        timePerFrame: 0.1)
+         super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func didMove(to view: SKView) {
         // working
@@ -25,10 +68,12 @@ class GameScene: SKScene {
 //        addChild(background)
 //        createBackground()
 
-        nurse.position =   CGPoint(x: nurse.size.width/4, y: size.height/2)
+        nurse.position =   CGPoint(x: nurse.size.width/2, y: size.height/2)
         nurse.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
         addChild(nurse)
-           
+        nurse.run(SKAction.repeatForever(doctorAnimation))
+        
+        
         
         run(SKAction.repeatForever(
           SKAction.sequence([
@@ -36,6 +81,13 @@ class GameScene: SKScene {
             SKAction.wait(forDuration: 1.0)
             ])
         ))
+        
+        run(SKAction.repeatForever(
+                 SKAction.sequence([
+                   SKAction.run(spawnCovidP),
+                   SKAction.wait(forDuration: 1.0)
+                   ])
+               ))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -118,6 +170,18 @@ class GameScene: SKScene {
 
         
     }
+    
+      func spawnCovidP() {
+            let covidP1 = SKSpriteNode(imageNamed: "covidP1")
+            let actualY = CGFloat.random(min: covidP1.size.height/2, max: size.height - covidP1.size.height/2)
+            covidP1.position = CGPoint(x: size.width + covidP1.size.width/2, y: actualY)
+            addChild(covidP1)
+            covidP1.run(SKAction.repeatForever(patient1Animation))
+            let actionMove = SKAction.move(to: CGPoint(x: -covidP1.size.width/2, y: actualY),
+                                           duration: TimeInterval(4))
+            let actionMoveDone = SKAction.removeFromParent()
+            covidP1.run( SKAction.sequence([actionMove, actionMoveDone]))
+        }
 
     func movePlayer(loc : CGPoint){
          let offset = CGPoint(x: loc.x - nurse.position.x,
