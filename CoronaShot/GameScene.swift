@@ -16,11 +16,20 @@ struct PhysicsCategory {
   static let projectile: UInt32 = 0b10      // 2
 }
 
+
+
 class GameScene: SKScene {
 
     
+    var heroNode: SKSpriteNode?
+    let velocityMultiplier: CGFloat = 0.12
+
+//let joystick = TLAnalogJoystickEventType(diameter: 100, images: (UIImage(named: "jSubstrate"), UIImage(named: "jStick")))
+    let joystick = TLAnalogJoystick(withDiameter: 200)
+    
+    
    var background = SKSpriteNode(imageNamed:"ingamebg")
-   let nurse = SKSpriteNode(imageNamed:"doc1")
+   var hero = SKSpriteNode(imageNamed:"doc1")
    let covidP = SKSpriteNode(imageNamed:"covidP1")
    let doctorAnimation: SKAction
    let patient1Animation : SKAction
@@ -36,6 +45,8 @@ class GameScene: SKScene {
                playableRect = CGRect(x: 0, y: playableMargin,
                width: size.width,
                height: playableHeight)
+        
+   
         
         
         var textures:[SKTexture] = []
@@ -64,10 +75,10 @@ class GameScene: SKScene {
              patient1textures.append(patient1textures[1])
         // 4
         doctorAnimation = SKAction.animate(with: textures,
-         timePerFrame: 0.1)
+         timePerFrame: 0.16)
         
         patient1Animation = SKAction.animate(with: patient1textures,
-        timePerFrame: 0.1)
+        timePerFrame: 0.16)
          super.init(size: size)
     }
     
@@ -87,6 +98,9 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+        joystick.position = CGPoint(x: 474, y: 274)
+        addChild(joystick)
+
         // working
 //        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
 
@@ -97,19 +111,19 @@ class GameScene: SKScene {
         addChild(background)
 //        createBackground()
 
-        nurse.position =   CGPoint(x: nurse.size.width, y: size.height/2)
-        nurse.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
-        addChild(nurse)
-        nurse.run(SKAction.repeatForever(doctorAnimation))
+        hero.position =   CGPoint(x: hero.size.width, y: size.height/2)
+        hero.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+        addChild(hero)
+        heroNode = hero
+        hero.run(SKAction.repeatForever(doctorAnimation))
         
         
-        
-        run(SKAction.repeatForever(
-          SKAction.sequence([
-            SKAction.run(spawnEnemy),
-            SKAction.wait(forDuration: 1.0)
-            ])
-        ))
+//        run(SKAction.repeatForever(
+//          SKAction.sequence([
+//            SKAction.run(spawnEnemy),
+//            SKAction.wait(forDuration: 1.0)
+//            ])
+//        ))
         
         run(SKAction.repeatForever(
                  SKAction.sequence([
@@ -122,15 +136,66 @@ class GameScene: SKScene {
         physicsWorld.contactDelegate = self
         
         debugDrawPlayableArea()
+//        setupJoystick()
+        
+//        joystick.on(.begin) { [unowned self] _ in
+//            let actions = [
+//                SKAction.scale(to: 0.5, duration: 0.5),
+//                SKAction.scale(to: 1, duration: 0.5)
+//            ]
+//
+//            self.hero.run(SKAction.sequence(actions))
+//        }
+        
+        joystick.on(.move) { [unowned self] joystick in
+            guard var heroNode = self.heroNode else {
+                return
+            }
+            
+            let bottomLeft = CGPoint(x: 0, y: self.playableRect.minY)
+            let topRight = CGPoint(x: self.playableRect.maxX, y: self.playableRect.maxY)
+            
+            let pVelocity = joystick.velocity;
+            let speed = CGFloat(0.25)
+            
+          
+                
+            
+            
+                       
+            if heroNode.position.y <= bottomLeft.y + heroNode.size.height * 0.8 {
+                            heroNode.position.y = bottomLeft.y + heroNode.size.height * 0.8
+                        }
+                        if heroNode.position.y >= topRight.y -   heroNode.size.height * 0.8{
+                        heroNode.position.y = topRight.y -   heroNode.size.height * 0.8
+                        }
+                      
+                             heroNode.position = CGPoint(x: heroNode.position.x , y: heroNode.position.y + (pVelocity.y * speed))
+                         
+            
+           
+        }
+        
+        joystick.on(.end) { [unowned self] _ in
+            print(self.heroNode!.position)
+//            let actions = [
+//                SKAction.scale(to: 1.5, duration: 0.5),
+//                SKAction.scale(to: 1, duration: 0.5)
+//            ]
+//
+//            self.heroNode?.run(SKAction.sequence(actions))
+        }
+
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
                    let location = touch.location(in: self)
-
-//                   movePlayer(loc : location)
-//            shotter(location: location)
-               }
+            
+            print(location)
+//          movePlayer(loc : location)
+//          shotter(location: location)
+            }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -142,7 +207,7 @@ class GameScene: SKScene {
         
         // 2 - Set up initial location of projectile
         let projectile = SKSpriteNode(imageNamed: "injection")
-        projectile.position = CGPoint(x: nurse.position.x+nurse.position.x/2.4, y: nurse.position.y)
+        projectile.position = CGPoint(x: hero.position.x + hero.position.x/2.4, y: hero.position.y)
         
         // 3 - Determine offset of location to projectile
         let offset = touchLocation - projectile.position
@@ -251,20 +316,20 @@ class GameScene: SKScene {
         }
 
     func movePlayer(loc : CGPoint){
-         let offset = CGPoint(x: loc.x - nurse.position.x,
-                         y: loc.y - nurse.position.y)
+         let offset = CGPoint(x: loc.x - hero.position.x,
+                         y: loc.y - hero.position.y)
          let length = sqrt(
                             Double(offset.x * offset.x + offset.y * offset.y))
         let time = length/480
            let actionMove = SKAction.move(
-               to: CGPoint(x: nurse.size.width, y: loc.y),
+               to: CGPoint(x: hero.size.width, y: loc.y),
                     duration: time)
-                   nurse.run(actionMove)
+                   hero.run(actionMove)
        }
     
     func shotter(location: CGPoint) {
       // 2 - Set up initial location of projectile
-         projectile.position = nurse.position
+         projectile.position = hero.position
          
          // 3 - Determine offset of location to projectile
          let offset = location - projectile.position
@@ -321,6 +386,32 @@ extension GameScene: SKPhysicsContactDelegate {
           projectileDidCollideWithMonster(projectile: projectile, monster: monster)
         }
       }
+        
+        
     }
+    
+
+//    func setupJoystick() {
+//        joystick.position = CGPoint(x: 274,y: 274)
+//          addChild(joystick)
+//      //
+//
+//
+//        joystick.beginHandler = { [unowned self]  in
+//            self.joystick.trackingHandler = { [unowned self] data in
+//                       print("trackingHandler")
+//                     self.hero.position = CGPoint(x: self.hero.position.x + (data.velocity.x * self.velocityMultiplier),
+//                                                  y: self.hero.position.y + (data.velocity.y * self.velocityMultiplier))
+//                     self.hero.zRotation = data.angular
+//                   }
+//        }
+//
+//
+//
+//        joystick.stopHandler = { [unowned self] in
+//         print("stop")
+//        }
+//    }
+     
 
 }
