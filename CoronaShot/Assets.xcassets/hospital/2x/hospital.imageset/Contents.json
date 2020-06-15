@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "Untitled_design-removebg-preview.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "hospital@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

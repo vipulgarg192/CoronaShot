@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "virus3-removebg-preview.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "ingamebg@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
