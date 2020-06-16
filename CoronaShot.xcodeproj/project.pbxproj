@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1052E7C124992B55003D872F /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052E7C024992B55003D872F /* MainMenuScene.swift */; };
 		10B880A02494A95E00D422E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10B8809E2494A95E00D422E3 /* Assets.xcassets */; };
 		10B880A4249801A500D422E3 /* AnalogJoystickData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B880A3249801A500D422E3 /* AnalogJoystickData.swift */; };
 		10B880A6249808ED00D422E3 /* TLAnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1052E7C024992B55003D872F /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		10B8809E2494A95E00D422E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10B880A3249801A500D422E3 /* AnalogJoystickData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogJoystickData.swift; sourceTree = "<group>"; };
 		10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLAnalogJoystick.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				10B8809E2494A95E00D422E3 /* Assets.xcassets */,
 				10B880A3249801A500D422E3 /* AnalogJoystickData.swift */,
 				10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */,
+				1052E7C024992B55003D872F /* MainMenuScene.swift */,
 			);
 			path = CoronaShot;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				10EA08B92491F89300C9FE47 /* GameViewController.swift in Sources */,
 				10B880A6249808ED00D422E3 /* TLAnalogJoystick.swift in Sources */,
 				10B880A4249801A500D422E3 /* AnalogJoystickData.swift in Sources */,
+				1052E7C124992B55003D872F /* MainMenuScene.swift in Sources */,
 				10EA08B12491F89300C9FE47 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,7 +318,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cipher.CoronaShot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -332,7 +336,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cipher.CoronaShot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

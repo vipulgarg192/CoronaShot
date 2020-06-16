@@ -17,38 +17,46 @@ struct PhysicsCategory {
 }
 
 
-
 class GameScene: SKScene {
 
     
     var heroNode: SKSpriteNode?
     let velocityMultiplier: CGFloat = 0.12
-
-//let joystick = TLAnalogJoystickEventType(diameter: 100, images: (UIImage(named: "jSubstrate"), UIImage(named: "jStick")))
     let joystick = TLAnalogJoystick(withDiameter: 200)
     
     
-   var background = SKSpriteNode(imageNamed:"ingamebg")
-   var hero = SKSpriteNode(imageNamed:"doc1")
-   let covidP = SKSpriteNode(imageNamed:"covidP1")
-   let doctorAnimation: SKAction
-   let patient1Animation : SKAction
+    var background = SKSpriteNode(imageNamed:"ingamebg")
+    var hero = SKSpriteNode(imageNamed:"doc1")
+    let covidP = SKSpriteNode(imageNamed:"covidP1")
+    let doctorAnimation: SKAction
+    let patient1Animation : SKAction
     let projectile = SKSpriteNode(imageNamed: "injection")
 
       let playableRect: CGRect
     
     override init(size: CGSize) {
         
-        let maxAspectRatio:CGFloat = 16.0/9.0 // 1
-               let playableHeight = size.width / maxAspectRatio // 2
-               let playableMargin = (size.height-playableHeight)/2.0 // 3
-               playableRect = CGRect(x: 0, y: playableMargin,
-               width: size.width,
-               height: playableHeight)
         
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            // it's face down
+            print("Iphone")
+        } else {
+                 print("Ipad")
+        }
+        
+       let maxAspectRatio:CGFloat = 16.0/9.0 // 1
+       let playableHeight = size.width / maxAspectRatio // 2
+       let playableMargin = (size.height-playableHeight)/2.0 // 3
+       playableRect = CGRect(x: 0, y: playableMargin,
+       width: size.width,
+       height: playableHeight)
+        
+//       print(playableHeight)
+//       print(playableMargin)
+        
+        print(playableRect.minX)
+        print(playableRect.maxX)
    
-        
-        
         var textures:[SKTexture] = []
         var patient1textures:[SKTexture] = []
         // 2
@@ -66,13 +74,13 @@ class GameScene: SKScene {
         textures.append(textures[2])
         textures.append(textures[1])
         
-             patient1textures.append(patient1textures[7])
-             patient1textures.append(patient1textures[6])
-             patient1textures.append(patient1textures[5])
-             patient1textures.append(patient1textures[4])
-             patient1textures.append(patient1textures[3])
-             patient1textures.append(patient1textures[2])
-             patient1textures.append(patient1textures[1])
+         patient1textures.append(patient1textures[7])
+         patient1textures.append(patient1textures[6])
+         patient1textures.append(patient1textures[5])
+         patient1textures.append(patient1textures[4])
+         patient1textures.append(patient1textures[3])
+         patient1textures.append(patient1textures[2])
+         patient1textures.append(patient1textures[1])
         // 4
         doctorAnimation = SKAction.animate(with: textures,
          timePerFrame: 0.16)
@@ -98,37 +106,48 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+//        self.view?.scene?.size = CGSize(width: 2048, height: 852)
+//        view.scaleMode =  .aspectFill
+        backgroundColor = SKColor.red
         joystick.position = CGPoint(x: 474, y: 274)
         addChild(joystick)
 
-        // working
+//        working
 //        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
 
         backgroundColor = SKColor.white
         // this is to bring the background into center
-        background.position =   CGPoint(x: size.width/2, y: size.height/2)
+//        background.position =   CGPoint(x: size.width/2, y: size.height/2)
+//        background.zPosition = -1
+//        addChild(background)
+        
+           let backgroundTexture = SKTexture(imageNamed: "ingamebg")
+              let background = SKSpriteNode(texture: backgroundTexture)
+        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height * 0.9 )
         background.zPosition = -1
-        addChild(background)
+              self.addChild(background)
+        
 //        createBackground()
 
         hero.position =   CGPoint(x: hero.size.width, y: size.height/2)
         hero.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+        hero.setScale(0.6)
         addChild(hero)
         heroNode = hero
         hero.run(SKAction.repeatForever(doctorAnimation))
-        
-        
-//        run(SKAction.repeatForever(
-//          SKAction.sequence([
-//            SKAction.run(spawnEnemy),
-//            SKAction.wait(forDuration: 1.0)
-//            ])
-//        ))
+                
+          run(SKAction.repeatForever(
+          SKAction.sequence([
+            SKAction.run(spawnEnemy),
+            SKAction.wait(forDuration: 7.0)
+            ])
+        ))
         
         run(SKAction.repeatForever(
                  SKAction.sequence([
                    SKAction.run(spawnCovidP),
-                   SKAction.wait(forDuration: 1.0)
+                   SKAction.wait(forDuration: 2.0)
                    ])
                ))
         
@@ -136,16 +155,6 @@ class GameScene: SKScene {
         physicsWorld.contactDelegate = self
         
         debugDrawPlayableArea()
-//        setupJoystick()
-        
-//        joystick.on(.begin) { [unowned self] _ in
-//            let actions = [
-//                SKAction.scale(to: 0.5, duration: 0.5),
-//                SKAction.scale(to: 1, duration: 0.5)
-//            ]
-//
-//            self.hero.run(SKAction.sequence(actions))
-//        }
         
         joystick.on(.move) { [unowned self] joystick in
             guard var heroNode = self.heroNode else {
@@ -157,11 +166,6 @@ class GameScene: SKScene {
             
             let pVelocity = joystick.velocity;
             let speed = CGFloat(0.25)
-            
-          
-                
-            
-            
                        
             if heroNode.position.y <= bottomLeft.y + heroNode.size.height * 0.8 {
                             heroNode.position.y = bottomLeft.y + heroNode.size.height * 0.8
@@ -264,7 +268,7 @@ class GameScene: SKScene {
     
      func createBackground() {
               let backgroundTexture = SKTexture(imageNamed: "bg1")
-
+             
               for i in 0 ... 1{
                   let background = SKSpriteNode(texture: backgroundTexture)
                   background.zPosition = -1
@@ -283,22 +287,25 @@ class GameScene: SKScene {
     
     func spawnEnemy() {
         
-        let virusNo = CGFloat.random(min: 1, max: 3)
-        let virus = SKSpriteNode(imageNamed: "virus\(virusNo)")
+        let virusNo = CGFloat.random(min: 1, max: 7)
+        let virus = SKSpriteNode(imageNamed: "pp\(virusNo)")
         let actualY = CGFloat.random(min: virus.size.height/2, max: size.height - virus.size.height/2)
         virus.position = CGPoint(x: size.width + virus.size.width/2, y: actualY)
         virus.setScale(0.5)
         addChild(virus)
         let actionMove = SKAction.move(to: CGPoint(x: -virus.size.width/2, y: actualY),
-                                       duration: TimeInterval(4))
+                                       duration: TimeInterval(3))
         let actionMoveDone = SKAction.removeFromParent()
         virus.run( SKAction.sequence([actionMove, actionMoveDone]))
     }
     
       func spawnCovidP() {
             let covidP1 = SKSpriteNode(imageNamed: "covidP1")
-            let actualY = CGFloat.random(min: covidP1.size.height/2, max: size.height - covidP1.size.height/2)
+//        let actualY = CGFloat.random(min: self.playableRect.minX, max:  covidP1.size.height + 1)
+        let actualY = CGFloat.random(min: self.playableRect.minY + covidP1.size.height/2 , max:  self.playableRect.maxY - covidP1.size.height/2)
             covidP1.position = CGPoint(x: size.width + covidP1.size.width/2, y: actualY)
+            covidP1.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            covidP1.setScale(0.6)
             addChild(covidP1)
             covidP1.run(SKAction.repeatForever(patient1Animation))
         
@@ -389,29 +396,4 @@ extension GameScene: SKPhysicsContactDelegate {
         
         
     }
-    
-
-//    func setupJoystick() {
-//        joystick.position = CGPoint(x: 274,y: 274)
-//          addChild(joystick)
-//      //
-//
-//
-//        joystick.beginHandler = { [unowned self]  in
-//            self.joystick.trackingHandler = { [unowned self] data in
-//                       print("trackingHandler")
-//                     self.hero.position = CGPoint(x: self.hero.position.x + (data.velocity.x * self.velocityMultiplier),
-//                                                  y: self.hero.position.y + (data.velocity.y * self.velocityMultiplier))
-//                     self.hero.zRotation = data.angular
-//                   }
-//        }
-//
-//
-//
-//        joystick.stopHandler = { [unowned self] in
-//         print("stop")
-//        }
-//    }
-     
-
 }
