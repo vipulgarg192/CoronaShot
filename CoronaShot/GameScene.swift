@@ -43,9 +43,17 @@ class GameScene: SKScene {
 //    let backgroundMusic: SKAction = SKAction.playSoundFileNamed(
 //      "caronashot.mp3", waitForCompletion: false)
     let hitMusic: SKAction = SKAction.playSoundFileNamed(
-      "hitCatLady.wav", waitForCompletion: false)
+      "ppeCollected.mp3", waitForCompletion: false)
+    let loselife: SKAction = SKAction.playSoundFileNamed(
+    "loselife.mp3", waitForCompletion: false)
     
     var backgroundMusic: SKAudioNode!
+    
+    var lives = 3
+    var score = 0
+    let scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+    var invincible = false
+
     
     override init(size: CGSize) {
         
@@ -246,6 +254,15 @@ class GameScene: SKScene {
 //
 //            self.heroNode?.run(SKAction.sequence(actions))
         }
+        
+        scoreLabel.text = "Score: 0"
+        scoreLabel.fontColor = SKColor.white
+        scoreLabel.fontSize = 100
+        scoreLabel.zPosition = 150
+        scoreLabel.position = CGPoint(
+                             x: playableRect.size.width/2 ,
+                              y: playableRect.size.height - CGFloat(240))
+        addChild(scoreLabel)
 
     }
     
@@ -302,17 +319,99 @@ class GameScene: SKScene {
        
     }
     
+    
+    func checkCollisions() {
+      var ppeHits: [SKSpriteNode] = []
+      enumerateChildNodes(withName: "ppe") { node, _ in
+        let ppe = node as! SKSpriteNode
+        if ppe.frame.intersects(self.hero.frame) {
+          ppeHits.append(ppe)
+        }
+      }
+      
+      for ppe in ppeHits {
+        ppeHit(ppe: ppe)
+      }
+      
+      if invincible {
+        return
+      }
+
+      var hitCovid: [SKSpriteNode] = []
+      enumerateChildNodes(withName: "covidP1") { node, _ in
+        let covidP1 = node as! SKSpriteNode
+        if node.frame.insetBy(dx: 50, dy: 50).intersects(
+          self.hero.frame) {
+          hitCovid.append(covidP1)
+        }
+      }
+      for covidP1 in hitCovid {
+        covidHit(covidP1: covidP1)
+      }
+    }
+    
+    func ppeHit(ppe: SKSpriteNode) {
+       ppe.name = "ppe"
+       ppe.removeFromParent()
+       run(hitMusic)
+        score  += 1
+     }
+    
+    func covidHit(covidP1: SKSpriteNode) {
+      invincible = true
+      let blinkTimes = 10.0
+      let duration = 3.0
+      let blinkAction = SKAction.customAction(withDuration: duration) { node, elapsedTime in
+        let slice = duration / blinkTimes
+        let remainder = Double(elapsedTime).truncatingRemainder(
+          dividingBy: slice)
+        node.isHidden = remainder > slice / 2
+      }
+      let setHidden = SKAction.run() { [weak self] in
+        self?.hero.isHidden = false
+        self?.invincible = false
+      }
+      hero.run(SKAction.sequence([blinkAction, setHidden]))
+      
+      run(loselife)
+        lives -= 1
+     }
+    
+    
+    override func didEvaluateActions() {
+      checkCollisions()
+    }
+    
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
        
     }
     
     override func update(_ currentTime: TimeInterval) {
-
+    scoreLabel.text = "Coins: \(score)"
+        
+        if (lives == 3){
+            healthdot1.setScale(1)
+            healthdot2.setScale(1)
+            healthdot3.setScale(1)
+        }
+        else if (lives == 2){
+            healthdot1.setScale(0)
+            healthdot2.setScale(1)
+            healthdot3.setScale(1)
+        }
+        else if (lives == 1){
+            healthdot1.setScale(0)
+            healthdot2.setScale(0)
+            healthdot3.setScale(1)
+        }else{
+            healthdot1.setScale(0)
+                       healthdot2.setScale(0)
+                       healthdot3.setScale(0)
+        }
     }
     
-    override func didEvaluateActions() {
-    
-    }
+   
     
     override func didSimulatePhysics() {
     
@@ -376,6 +475,7 @@ class GameScene: SKScene {
         let actualY = CGFloat.random(min: virus.size.height/2, max: size.height - virus.size.height/2)
         virus.position = CGPoint(x: size.width + virus.size.width/2, y: actualY)
         virus.setScale(0.5)
+        virus.name = "ppe"
         virus.zPosition = 2
         addChild(virus)
         let actionMove = SKAction.move(to: CGPoint(x: -virus.size.width/2, y: actualY),
@@ -391,6 +491,7 @@ class GameScene: SKScene {
             covidP1.position = CGPoint(x: size.width + covidP1.size.width/2, y: actualY)
             covidP1.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             covidP1.setScale(0.6)
+        covidP1.name = "covidP1"
         covidP1.zPosition = 3
             addChild(covidP1)
             covidP1.run(SKAction.repeatForever(patient1Animation))
@@ -452,6 +553,8 @@ class GameScene: SKScene {
       print("Hit")
       projectile.removeFromParent()
       monster.removeFromParent()
+      run(loselife)
+       
     }
 
 
