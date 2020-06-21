@@ -388,7 +388,7 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-    scoreLabel.text = "Coins: \(score)"
+    scoreLabel.text = "Score: \(score)"
         
         if score >= 10 {
             let gameOverScene = GameOverUI(size: size, won: true)
