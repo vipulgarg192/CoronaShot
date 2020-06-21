@@ -4,4 +4,4 @@
 - Neeraj Prasher(c0751093)
 - Shivani Dhiman(c0751731)
 
-<img src=https://github.com/vipulgarg192/Assignment1_MAD5234/blob/master/ScreenShot/CodeCoverage.jpg height="400" align="center"/>
+<img src=https://github.com/vipulgarg192/CoronaShot/blob/master/IMG-1373.PNG height="400" align="center"/>
