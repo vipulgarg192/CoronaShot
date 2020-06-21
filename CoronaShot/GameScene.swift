@@ -19,7 +19,6 @@ struct PhysicsCategory {
 
 class GameScene: SKScene {
 
-    
     var heroNode: SKSpriteNode?
     let velocityMultiplier: CGFloat = 0.12
     let joystick = TLAnalogJoystick(withDiameter: 200)
@@ -54,7 +53,6 @@ class GameScene: SKScene {
     let scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
     var invincible = false
 
-    
     override init(size: CGSize) {
         
         
