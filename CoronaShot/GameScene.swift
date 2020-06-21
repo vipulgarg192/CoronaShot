@@ -27,6 +27,8 @@ class GameScene: SKScene {
     
     var background = SKSpriteNode(imageNamed:"ingamebg")
     var hero = SKSpriteNode(imageNamed:"doc1")
+    var heroBackground = SKSpriteNode(imageNamed:"zebracross")
+
     let covidP = SKSpriteNode(imageNamed:"covidP1")
     let doctorAnimation: SKAction
     let patient1Animation : SKAction
@@ -121,21 +123,24 @@ class GameScene: SKScene {
 //        background.zPosition = -1
 //        addChild(background)
         
-           let backgroundTexture = SKTexture(imageNamed: "ingamebg")
-              let background = SKSpriteNode(texture: backgroundTexture)
-        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height * 0.9 )
-        background.zPosition = -1
-              self.addChild(background)
+          
         
-//        createBackground()
+        createBackground()
+        
+        heroBackground.position =   CGPoint(x: hero.size.width, y: size.height/2)
+        heroBackground.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+        heroBackground.zPosition = 1
+        heroBackground.setScale(0.90)
+        addChild(heroBackground)
 
         hero.position =   CGPoint(x: hero.size.width, y: size.height/2)
         hero.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
         hero.setScale(0.6)
+        hero.zPosition = 100
         addChild(hero)
         heroNode = hero
         hero.run(SKAction.repeatForever(doctorAnimation))
+        
                 
           run(SKAction.repeatForever(
           SKAction.sequence([
@@ -265,33 +270,61 @@ class GameScene: SKScene {
         
     }
     
-    
-     func createBackground() {
-              let backgroundTexture = SKTexture(imageNamed: "bg1")
-             
-              for i in 0 ... 1{
-                  let background = SKSpriteNode(texture: backgroundTexture)
-                  background.zPosition = -1
-                  background.anchorPoint = CGPoint(x: 0, y: 0.5)
-                  background.position = CGPoint(x:  (backgroundTexture.size().width * CGFloat(i)) - CGFloat(1 * i), y: size.height/2)
-                let moveLeft = SKAction.moveBy(x: -backgroundTexture.size().width, y: 0, duration: 10)
-                let moveReset = SKAction.moveBy(x: backgroundTexture.size().width, y: 0, duration: 0)
-                let moveLoop = SKAction.sequence([moveLeft, moveReset])
-                let moveForever = SKAction.repeatForever(moveLoop)
-                background.size = UIScreen.main.bounds.size
+    func createBackground() {
+                   let backgroundTexture = SKTexture(imageNamed: "ingamebg")
 
-                background.run(moveForever)
-                addChild(background)
-              }
-    }
+                   for i in 0 ... 1{
+                       let background = SKSpriteNode(texture: backgroundTexture)
+                       background.zPosition = -1
+                    background.size = CGSize(width: self.frame.size.width * 1.1 , height: self.frame.size.height * 0.9 )
+                       background.anchorPoint = CGPoint(x: 0, y: 0.5)
+                       background.position = CGPoint(x:  (backgroundTexture.size().width * CGFloat(i)) , y: size.height/2)
+                     let moveLeft = SKAction.moveBy(x: -backgroundTexture.size().width, y: 0, duration: 10)
+                     let moveReset = SKAction.moveBy(x: backgroundTexture.size().width, y: 0, duration: 0)
+                     let moveLoop = SKAction.sequence([moveLeft, moveReset])
+                     let moveForever = SKAction.repeatForever(moveLoop)
+                     background.run(moveForever)
+                     addChild(background)
+                   }
+         }
+    
+//     func createBackground() {
+//        let backgroundTexture = SKTexture(imageNamed: "ingamebg")
+//
+//
+//
+//
+//              for i in 0 ... 1{
+//
+//                let background = SKSpriteNode(texture: backgroundTexture)
+//                              background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+//                              background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height * 0.9 )
+//                              background.zPosition = -1
+////                                    self.addChild(background)
+//
+////                  let background = SKSpriteNode(texture: backgroundTexture)
+////                  background.zPosition = -1
+////                  background.anchorPoint = CGPoint(x: 0, y: 0.5)
+////                  background.position = CGPoint(x:  (backgroundTexture.size().width * CGFloat(i)) - CGFloat(1 * i), y: size.height/2)
+//                let moveLeft = SKAction.moveBy(x: -backgroundTexture.size().width, y: 0, duration: 10)
+//                let moveReset = SKAction.moveBy(x: backgroundTexture.size().width, y: 0, duration: 0)
+//                let moveLoop = SKAction.sequence([moveLeft, moveReset])
+//                let moveForever = SKAction.repeatForever(moveLoop)
+////                background.size = UIScreen.main.bounds.size
+//
+//                background.run(moveForever)
+//                addChild(background)
+//              }
+//    }
     
     func spawnEnemy() {
         
-        let virusNo = CGFloat.random(min: 1, max: 7)
-        let virus = SKSpriteNode(imageNamed: "pp\(virusNo)")
+        let ppNO = CGFloat.random(min: 1, max: 7)
+        let virus = SKSpriteNode(imageNamed: "pp\(ppNO)")
         let actualY = CGFloat.random(min: virus.size.height/2, max: size.height - virus.size.height/2)
         virus.position = CGPoint(x: size.width + virus.size.width/2, y: actualY)
         virus.setScale(0.5)
+        virus.zPosition = 2
         addChild(virus)
         let actionMove = SKAction.move(to: CGPoint(x: -virus.size.width/2, y: actualY),
                                        duration: TimeInterval(3))
@@ -302,10 +335,11 @@ class GameScene: SKScene {
       func spawnCovidP() {
             let covidP1 = SKSpriteNode(imageNamed: "covidP1")
 //        let actualY = CGFloat.random(min: self.playableRect.minX, max:  covidP1.size.height + 1)
-        let actualY = CGFloat.random(min: self.playableRect.minY + covidP1.size.height/2 , max:  self.playableRect.maxY - covidP1.size.height/2)
+        let actualY = CGFloat.random(min: self.playableRect.minY + covidP1.size.height * 1.2 , max:  self.playableRect.maxY - covidP1.size.height )
             covidP1.position = CGPoint(x: size.width + covidP1.size.width/2, y: actualY)
             covidP1.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             covidP1.setScale(0.6)
+        covidP1.zPosition = 3
             addChild(covidP1)
             covidP1.run(SKAction.repeatForever(patient1Animation))
         
