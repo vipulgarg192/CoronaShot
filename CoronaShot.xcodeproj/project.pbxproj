@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1052E7C124992B55003D872F /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052E7C024992B55003D872F /* MainMenuScene.swift */; };
+		1052E7F024A000E6003D872F /* caronashot.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1052E7EF24A000E6003D872F /* caronashot.mp3 */; };
 		10B880A02494A95E00D422E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10B8809E2494A95E00D422E3 /* Assets.xcassets */; };
 		10B880A4249801A500D422E3 /* AnalogJoystickData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B880A3249801A500D422E3 /* AnalogJoystickData.swift */; };
 		10B880A6249808ED00D422E3 /* TLAnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		1052E7C024992B55003D872F /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
+		1052E7EF24A000E6003D872F /* caronashot.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = caronashot.mp3; sourceTree = "<group>"; };
 		10B8809E2494A95E00D422E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10B880A3249801A500D422E3 /* AnalogJoystickData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogJoystickData.swift; sourceTree = "<group>"; };
 		10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLAnalogJoystick.swift; sourceTree = "<group>"; };
@@ -49,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1052E7EE24A000E6003D872F /* music */ = {
+			isa = PBXGroup;
+			children = (
+				1052E7EF24A000E6003D872F /* caronashot.mp3 */,
+			);
+			path = music;
+			sourceTree = "<group>";
+		};
 		10EA08A42491F89300C9FE47 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +87,7 @@
 				10EA08BA2491F89300C9FE47 /* Main.storyboard */,
 				10EA08BF2491F89400C9FE47 /* LaunchScreen.storyboard */,
 				10EA08C22491F89400C9FE47 /* Info.plist */,
+				1052E7EE24A000E6003D872F /* music */,
 				10B8809E2494A95E00D422E3 /* Assets.xcassets */,
 				10B880A3249801A500D422E3 /* AnalogJoystickData.swift */,
 				10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */,
@@ -143,6 +154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1052E7F024A000E6003D872F /* caronashot.mp3 in Resources */,
 				10EA08BC2491F89300C9FE47 /* Main.storyboard in Resources */,
 				10EA08B32491F89300C9FE47 /* GameScene.sks in Resources */,
 				10EA08C12491F89400C9FE47 /* LaunchScreen.storyboard in Resources */,

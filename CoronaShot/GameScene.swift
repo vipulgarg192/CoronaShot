@@ -24,7 +24,6 @@ class GameScene: SKScene {
     let velocityMultiplier: CGFloat = 0.12
     let joystick = TLAnalogJoystick(withDiameter: 200)
     
-    
     var background = SKSpriteNode(imageNamed:"ingamebg")
     var hero = SKSpriteNode(imageNamed:"doc1")
     var heroBackground = SKSpriteNode(imageNamed:"zebracross")
@@ -33,8 +32,20 @@ class GameScene: SKScene {
     let doctorAnimation: SKAction
     let patient1Animation : SKAction
     let projectile = SKSpriteNode(imageNamed: "injection")
-
-      let playableRect: CGRect
+    
+    var healthbattery = SKSpriteNode(imageNamed:"healthbattery")
+    
+    var healthdot1 = SKSpriteNode(imageNamed:"healthdot")
+    var healthdot2 = SKSpriteNode(imageNamed:"healthdot")
+    var healthdot3 = SKSpriteNode(imageNamed:"healthdot")
+    
+    let playableRect: CGRect
+//    let backgroundMusic: SKAction = SKAction.playSoundFileNamed(
+//      "caronashot.mp3", waitForCompletion: false)
+    let hitMusic: SKAction = SKAction.playSoundFileNamed(
+      "hitCatLady.wav", waitForCompletion: false)
+    
+    var backgroundMusic: SKAudioNode!
     
     override init(size: CGSize) {
         
@@ -108,12 +119,19 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+//        run(hitMusic)
+//         playBackgroundMusic(filename: "caronashot.mp3")
 //        self.view?.scene?.size = CGSize(width: 2048, height: 852)
 //        view.scaleMode =  .aspectFill
         backgroundColor = SKColor.red
-        joystick.position = CGPoint(x: 474, y: 274)
+        joystick.position = CGPoint(x: 674, y: 274)
         addChild(joystick)
-
+        if let musicURL = Bundle.main.url(forResource: "caronashot", withExtension: "mp3") {
+            backgroundMusic = SKAudioNode(url: musicURL)
+            addChild(backgroundMusic)
+        }else{
+            print("no music")
+        }
 //        working
 //        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
 
@@ -132,6 +150,40 @@ class GameScene: SKScene {
         heroBackground.zPosition = 1
         heroBackground.setScale(0.90)
         addChild(heroBackground)
+        
+        
+        
+        healthbattery.position =   CGPoint(x: hero.size.width/4, y: size.height/2)
+        healthbattery.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+        healthbattery.zPosition = 1
+        healthbattery.setScale(0.90)
+        addChild(healthbattery)
+        
+        
+        healthdot2.position =   CGPoint(x: hero.size.width/4, y: size.height/2)
+        healthdot2.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+        healthdot2.zPosition = 2
+        healthdot2.setScale(0.90)
+        addChild(healthdot2)
+        
+//        healthdot2.position =   CGPoint(x: hero.size.width/4, y: size.height/1.5)
+//        healthdot2.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+//        healthdot2.zPosition = 1
+//        healthdot2.setScale(0.90)
+//        addChild(healthdot2)
+//
+                healthdot1.position =   CGPoint(x: hero.size.width/4, y: size.height/1.6)
+                healthdot1.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+                healthdot1.zPosition = 2
+                healthdot1.setScale(0.90)
+                addChild(healthdot1)
+        
+        healthdot3.position =   CGPoint(x: hero.size.width/4, y: size.height/2.6)
+        healthdot3.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
+        healthdot3.zPosition = 2
+        healthdot3.setScale(0.90)
+        addChild(healthdot3)
+        
 
         hero.position =   CGPoint(x: hero.size.width, y: size.height/2)
         hero.anchorPoint = CGPoint(x: 0.5, y: 0.5) // default
@@ -178,8 +230,8 @@ class GameScene: SKScene {
                         if heroNode.position.y >= topRight.y -   heroNode.size.height * 0.8{
                         heroNode.position.y = topRight.y -   heroNode.size.height * 0.8
                         }
-                      
-                             heroNode.position = CGPoint(x: heroNode.position.x , y: heroNode.position.y + (pVelocity.y * speed))
+           
+                             heroNode.position = CGPoint(x: heroNode.position.x  , y: heroNode.position.y + (pVelocity.y * speed))
                          
             
            
@@ -427,7 +479,5 @@ extension GameScene: SKPhysicsContactDelegate {
           projectileDidCollideWithMonster(projectile: projectile, monster: monster)
         }
       }
-        
-        
     }
 }
