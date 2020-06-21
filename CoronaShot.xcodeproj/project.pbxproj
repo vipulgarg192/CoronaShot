@@ -12,6 +12,10 @@
 		1052E7F224A00B3D003D872F /* ppeCollected.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1052E7F124A00B3D003D872F /* ppeCollected.mp3 */; };
 		1052E7F424A00D85003D872F /* loselife.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1052E7F324A00D85003D872F /* loselife.mp3 */; };
 		1052E7F624A012A6003D872F /* GameOverUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052E7F524A012A6003D872F /* GameOverUI.swift */; };
+		1052E80524A01F14003D872F /* victory.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1052E80124A01F14003D872F /* victory.PNG */; };
+		1052E80624A01F14003D872F /* gameplay.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1052E80224A01F14003D872F /* gameplay.PNG */; };
+		1052E80724A01F14003D872F /* lose.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1052E80324A01F14003D872F /* lose.PNG */; };
+		1052E80824A01F14003D872F /* start.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1052E80424A01F14003D872F /* start.PNG */; };
 		10B880A02494A95E00D422E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10B8809E2494A95E00D422E3 /* Assets.xcassets */; };
 		10B880A4249801A500D422E3 /* AnalogJoystickData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B880A3249801A500D422E3 /* AnalogJoystickData.swift */; };
 		10B880A6249808ED00D422E3 /* TLAnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */; };
@@ -31,6 +35,10 @@
 		1052E7F124A00B3D003D872F /* ppeCollected.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ppeCollected.mp3; sourceTree = "<group>"; };
 		1052E7F324A00D85003D872F /* loselife.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = loselife.mp3; sourceTree = "<group>"; };
 		1052E7F524A012A6003D872F /* GameOverUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverUI.swift; sourceTree = "<group>"; };
+		1052E80124A01F14003D872F /* victory.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = victory.PNG; sourceTree = "<group>"; };
+		1052E80224A01F14003D872F /* gameplay.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameplay.PNG; sourceTree = "<group>"; };
+		1052E80324A01F14003D872F /* lose.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lose.PNG; sourceTree = "<group>"; };
+		1052E80424A01F14003D872F /* start.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start.PNG; sourceTree = "<group>"; };
 		10B8809E2494A95E00D422E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10B880A3249801A500D422E3 /* AnalogJoystickData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogJoystickData.swift; sourceTree = "<group>"; };
 		10B880A5249808ED00D422E3 /* TLAnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLAnalogJoystick.swift; sourceTree = "<group>"; };
@@ -67,6 +75,17 @@
 			path = music;
 			sourceTree = "<group>";
 		};
+		1052E80024A01F14003D872F /* ScreenShot */ = {
+			isa = PBXGroup;
+			children = (
+				1052E80124A01F14003D872F /* victory.PNG */,
+				1052E80224A01F14003D872F /* gameplay.PNG */,
+				1052E80324A01F14003D872F /* lose.PNG */,
+				1052E80424A01F14003D872F /* start.PNG */,
+			);
+			path = ScreenShot;
+			sourceTree = "<group>";
+		};
 		10EA08A42491F89300C9FE47 = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +105,7 @@
 		10EA08AF2491F89300C9FE47 /* CoronaShot */ = {
 			isa = PBXGroup;
 			children = (
+				1052E80024A01F14003D872F /* ScreenShot */,
 				10EA08B02491F89300C9FE47 /* AppDelegate.swift */,
 				10EA08B22491F89300C9FE47 /* GameScene.sks */,
 				10EA08B42491F89300C9FE47 /* Actions.sks */,
@@ -163,13 +183,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1052E80724A01F14003D872F /* lose.PNG in Resources */,
 				1052E7F224A00B3D003D872F /* ppeCollected.mp3 in Resources */,
 				1052E7F024A000E6003D872F /* caronashot.mp3 in Resources */,
+				1052E80524A01F14003D872F /* victory.PNG in Resources */,
+				1052E80624A01F14003D872F /* gameplay.PNG in Resources */,
 				10EA08BC2491F89300C9FE47 /* Main.storyboard in Resources */,
 				10EA08B32491F89300C9FE47 /* GameScene.sks in Resources */,
 				10EA08C12491F89400C9FE47 /* LaunchScreen.storyboard in Resources */,
 				1052E7F424A00D85003D872F /* loselife.mp3 in Resources */,
 				10EA08B52491F89300C9FE47 /* Actions.sks in Resources */,
+				1052E80824A01F14003D872F /* start.PNG in Resources */,
 				10B880A02494A95E00D422E3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
