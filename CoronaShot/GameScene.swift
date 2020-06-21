@@ -128,18 +128,18 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
 //        run(hitMusic)
-//         playBackgroundMusic(filename: "caronashot.mp3")
+         playBackgroundMusic(filename: "caronashot.mp3")
 //        self.view?.scene?.size = CGSize(width: 2048, height: 852)
 //        view.scaleMode =  .aspectFill
         backgroundColor = SKColor.red
         joystick.position = CGPoint(x: 674, y: 274)
         addChild(joystick)
-        if let musicURL = Bundle.main.url(forResource: "caronashot", withExtension: "mp3") {
-            backgroundMusic = SKAudioNode(url: musicURL)
-            addChild(backgroundMusic)
-        }else{
-            print("no music")
-        }
+//        if let musicURL = Bundle.main.url(forResource: "caronashot", withExtension: "mp3") {
+//            backgroundMusic = SKAudioNode(url: musicURL)
+//            addChild(backgroundMusic)
+//        }else{
+//            print("no music")
+//        }
 //        working
 //        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
 
@@ -390,6 +390,15 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
     scoreLabel.text = "Coins: \(score)"
         
+        if score >= 10 {
+            let gameOverScene = GameOverUI(size: size, won: true)
+                            gameOverScene.scaleMode = scaleMode
+                            // 2
+                            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                            // 3
+                            view?.presentScene(gameOverScene, transition: reveal)
+        }
+        
         if (lives == 3){
             healthdot1.setScale(1)
             healthdot2.setScale(1)
@@ -405,9 +414,24 @@ class GameScene: SKScene {
             healthdot2.setScale(0)
             healthdot3.setScale(1)
         }else{
-            healthdot1.setScale(0)
-                       healthdot2.setScale(0)
-                       healthdot3.setScale(0)
+                 backgroundMusicPlayer.stop()
+                 
+            if score >= 10 {
+                let gameOverScene = GameOverUI(size: size, won: true)
+                                gameOverScene.scaleMode = scaleMode
+                                // 2
+                                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                                // 3
+                                view?.presentScene(gameOverScene, transition: reveal)
+            }else{
+                let gameOverScene = GameOverUI(size: size, won: false)
+                                gameOverScene.scaleMode = scaleMode
+                                // 2
+                                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                                // 3
+                                view?.presentScene(gameOverScene, transition: reveal)
+            }
+           
         }
     }
     
